@@ -1,36 +1,69 @@
-const dataUrl = "./daily_messages_by_day.json";
-
 const cardsRoot = document.getElementById("cards");
+const topTags = document.getElementById("topTags");
+const subtitle = document.getElementById("subtitle");
+const bottomCopy = document.getElementById("bottomCopy");
+const connectorOne = document.getElementById("connectorOne");
+const connectorTwo = document.getElementById("connectorTwo");
 const dayWeek = document.getElementById("dayWeek");
 const dayNumber = document.getElementById("dayNumber");
 const dayMonth = document.getElementById("dayMonth");
 const dayYear = document.getElementById("dayYear");
 const cycleLabel = document.getElementById("cycleLabel");
 const cardTemplate = document.getElementById("cardTemplate");
+const langEsBtn = document.getElementById("langEs");
+const langEnBtn = document.getElementById("langEn");
 
-let data = null;
+const langStorageKey = "padelDailyLang";
+let currentLang = "es";
 
-function getDateParts(date) {
-  const raw = new Intl.DateTimeFormat("es-ES", {
+const uiCopy = {
+  es: {
+    locale: "es-ES",
+    connector: "de",
+    topTags: "FOCO • PLAN • MEJORA",
+    subtitle: "Tu microlección diaria de Cuerpo, Mente y Táctica",
+    category: { cuerpo: "Cuerpo", mente: "Mente", tactica: "Táctica" },
+    exerciseLabel: "Ejercicio",
+    cycle: (day, total) => `Día ${day} de ${total}`,
+    bottom: "Cada día mejor, en la pista y en la vida."
+  },
+  en: {
+    locale: "en-GB",
+    connector: "of",
+    topTags: "FOCUS • PLAN • IMPROVE",
+    subtitle: "Your daily micro-lesson for Body, Mind and Tactics",
+    category: { cuerpo: "Body", mente: "Mind", tactica: "Tactics" },
+    exerciseLabel: "Exercise",
+    cycle: (day, total) => `Day ${day} of ${total}`,
+    bottom: "Better every day, on court and in life."
+  }
+};
+
+function getCurrentData() {
+  if (currentLang === "en") return window.DAILY_MESSAGES_BY_DAY_EN;
+  return window.DAILY_MESSAGES_BY_DAY;
+}
+
+function getDateParts(date, locale) {
+  const raw = new Intl.DateTimeFormat(locale, {
     weekday: "long",
     day: "numeric",
     month: "long",
     year: "numeric"
   }).format(date);
-  const parts = raw.match(/^([^,]+),\s+(\d{1,2})\s+de\s+([^\s]+)\s+de\s+(\d{4})$/i);
-  if (!parts) {
-    return {
-      weekday: "Hoy",
-      day: String(date.getDate()),
-      month: String(date.getMonth() + 1),
-      year: String(date.getFullYear())
-    };
-  }
+  const parts = new Intl.DateTimeFormat(locale, {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric"
+  }).formatToParts(date);
+  const map = Object.fromEntries(parts.filter((p) => p.type !== "literal").map((p) => [p.type, p.value]));
   return {
-    weekday: parts[1].toUpperCase(),
-    day: parts[2],
-    month: parts[3].toUpperCase(),
-    year: parts[4]
+    weekday: (map.weekday || "").toUpperCase(),
+    day: map.day || String(date.getDate()),
+    month: (map.month || "").toUpperCase(),
+    year: map.year || String(date.getFullYear()),
+    raw
   };
 }
 
@@ -41,13 +74,8 @@ function getDayIndex(totalDays, date) {
   return ((daysSinceEpoch % totalDays) + totalDays) % totalDays;
 }
 
-function categoryLabel(key) {
-  if (key === "cuerpo") return "Cuerpo";
-  if (key === "mente") return "Mente";
-  return "Táctica";
-}
-
 function renderCard(key, item) {
+  const copy = uiCopy[currentLang];
   const node = cardTemplate.content.firstElementChild.cloneNode(true);
   node.classList.add(key);
   const badge = node.querySelector(".badge");
@@ -57,51 +85,65 @@ function renderCard(key, item) {
   const textEl = node.querySelector(".lesson-text");
   const exEl = node.querySelector(".lesson-exercise");
 
-  badge.textContent = categoryLabel(key);
+  badge.textContent = copy.category[key];
   badge.classList.add(key);
   cardIcon.classList.add(key);
   cardIcon.textContent = key === "cuerpo" ? "🏃" : key === "mente" ? "🧠" : "✖";
   idEl.textContent = item.id;
   titleEl.textContent = item.title;
   textEl.textContent = item.lesson;
-  exEl.textContent = `Ejercicio: ${item.exercise}`;
+  exEl.textContent = `${copy.exerciseLabel}: ${item.exercise}`;
   return node;
 }
 
 function render() {
-  if (!data) return;
+  const data = getCurrentData();
+  if (!data || !Array.isArray(data.byDay) || !data.byDay.length) return;
+  const copy = uiCopy[currentLang];
   const days = data.byDay.length;
   const today = new Date();
   const idx = getDayIndex(days, today);
   const payload = data.byDay[idx];
-  const dateParts = getDateParts(today);
+  const dateParts = getDateParts(today, copy.locale);
+
+  topTags.textContent = copy.topTags;
+  subtitle.textContent = copy.subtitle;
+  bottomCopy.textContent = copy.bottom;
+  connectorOne.textContent = copy.connector;
+  connectorTwo.textContent = copy.connector;
+  document.documentElement.lang = currentLang;
 
   dayWeek.textContent = dateParts.weekday;
   dayNumber.textContent = dateParts.day;
   dayMonth.textContent = dateParts.month;
   dayYear.textContent = dateParts.year;
-  cycleLabel.textContent = `Día ${payload.day} de ${days}`;
+  cycleLabel.textContent = copy.cycle(payload.day, days);
 
   cardsRoot.innerHTML = "";
   cardsRoot.appendChild(renderCard("cuerpo", payload.cuerpo));
   cardsRoot.appendChild(renderCard("mente", payload.mente));
   cardsRoot.appendChild(renderCard("tactica", payload.tactica));
+  langEsBtn.classList.toggle("active", currentLang === "es");
+  langEnBtn.classList.toggle("active", currentLang === "en");
 }
 
-async function loadData() {
-  if (window.DAILY_MESSAGES_BY_DAY && Array.isArray(window.DAILY_MESSAGES_BY_DAY.byDay)) {
-    return window.DAILY_MESSAGES_BY_DAY;
-  }
-  const response = await fetch(dataUrl);
-  if (!response.ok) throw new Error(`No se pudo cargar ${dataUrl}`);
-  return response.json();
-}
-
-async function init() {
-  data = await loadData();
+function setLanguage(lang) {
+  currentLang = lang === "en" ? "en" : "es";
+  localStorage.setItem(langStorageKey, currentLang);
   render();
 }
 
-init().catch((err) => {
-  cardsRoot.innerHTML = `<p>Error cargando contenido: ${err.message}</p>`;
-});
+function init() {
+  const storedLang = localStorage.getItem(langStorageKey);
+  if (storedLang === "en" || storedLang === "es") currentLang = storedLang;
+  else if ((navigator.language || "").toLowerCase().startsWith("en")) currentLang = "en";
+  if (!window.DAILY_MESSAGES_BY_DAY || !window.DAILY_MESSAGES_BY_DAY_EN) {
+    cardsRoot.innerHTML = "<p>Error loading lesson data files.</p>";
+    return;
+  }
+  langEsBtn.addEventListener("click", () => setLanguage("es"));
+  langEnBtn.addEventListener("click", () => setLanguage("en"));
+  render();
+}
+
+init();
