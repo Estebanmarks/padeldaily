@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Padel Daily</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="container">
+    <header class="top">
+      <div class="brand">
+        <div class="brand-icon">🎾</div>
+        <h1>Padel Daily</h1>
+      </div>
+      <p class="top-tags">FOCO • PLAN • MEJORA</p>
+      <p class="subtitle">Tu microlección diaria de Cuerpo, Mente y Táctica</p>
+    </header>
+
+    <section class="day-banner">
+      <div class="day-week" id="dayWeek"></div>
+      <div class="day-row">
+        <span class="date-chip date-number" id="dayNumber"></span>
+        <span class="de-label">de</span>
+        <span class="date-chip date-month" id="dayMonth"></span>
+        <span class="de-label">de</span>
+        <span class="date-chip date-year" id="dayYear"></span>
+      </div>
+      <div id="cycleLabel"></div>
+    </section>
+
+    <section class="cards" id="cards"></section>
+    <footer class="bottom-copy">Cada día mejor, en la pista y en la vida.</footer>
+  </main>
+
+  <template id="cardTemplate">
+    <article class="card">
+      <div class="card-head">
+        <div class="card-icon"></div>
+      </div>
+      <div class="card-main">
+        <div class="card-label-row">
+        <span class="badge"></span>
+        <span class="lesson-id"></span>
+        </div>
+        <h2 class="lesson-title"></h2>
+        <p class="lesson-text"></p>
+        <p class="lesson-exercise"></p>
+      </div>
+      <div class="card-arrow">›</div>
+    </article>
+  </template>
+
+  <script src="./daily_messages_by_day.js" defer></script>
+  <script src="./app.js" defer></script>
+</body>
+</html>

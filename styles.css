@@ -1,0 +1,321 @@
+:root {
+  color-scheme: dark;
+  --bg: #060f24;
+  --bg2: #04132f;
+  --panel: rgba(6, 18, 42, 0.9);
+  --text: #e9f0ff;
+  --muted: #96a7cd;
+  --line: rgba(111, 161, 255, 0.28);
+  --cuerpo: #99f12b;
+  --mente: #8e5dff;
+  --tactica: #ff8a1f;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background:
+    linear-gradient(rgba(3, 10, 24, 0.78), rgba(3, 10, 24, 0.86)),
+    url("./bg-padel.png") center / cover no-repeat fixed,
+    linear-gradient(160deg, var(--bg) 0%, var(--bg2) 55%, #030a19 100%);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 24px 16px 40px;
+}
+
+.top {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 4px 16px;
+  align-items: center;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-icon {
+  font-size: 1.8rem;
+  filter: drop-shadow(0 0 8px rgba(187, 255, 40, 0.8));
+}
+
+.top h1 {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-style: italic;
+  letter-spacing: 0.02em;
+}
+
+.top-tags {
+  margin: 0;
+  color: #b6c6ec;
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.subtitle {
+  grid-column: 1 / -1;
+  margin-top: 8px;
+  color: #b2c2e7;
+  font-size: 1.25rem;
+}
+
+.day-banner {
+  margin: 20px 0 24px;
+  padding: 18px 16px;
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(10, 31, 70, 0.8), rgba(6, 18, 42, 0.9));
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 0 0 1px rgba(104, 163, 255, 0.16), 0 0 18px rgba(35, 105, 255, 0.25);
+}
+
+.day-week {
+  font-weight: 700;
+  color: #42a8ff;
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+}
+
+.day-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.date-chip {
+  border: 1px solid rgba(136, 179, 255, 0.35);
+  border-radius: 8px;
+  background: rgba(8, 17, 36, 0.85);
+  color: #f3fbff;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  padding: 6px 12px;
+  font-weight: 700;
+}
+
+.date-number,
+.date-year {
+  font-size: 2.6rem;
+  line-height: 1;
+  color: #d8f137;
+}
+
+.date-month {
+  font-size: 2.3rem;
+  line-height: 1;
+}
+
+.de-label {
+  text-transform: uppercase;
+  color: #c9d7f7;
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+#cycleLabel {
+  margin-top: 10px;
+  color: #1da4ff;
+  font-size: 1rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.cards {
+  display: grid;
+  gap: 14px;
+}
+
+.card {
+  background: linear-gradient(160deg, rgba(8, 20, 48, 0.94), rgba(5, 15, 37, 0.96));
+  border: 1px solid rgba(111, 161, 255, 0.28);
+  border-radius: 16px;
+  padding: 14px;
+  display: grid;
+  grid-template-columns: 84px 1fr 42px;
+  gap: 14px;
+  align-items: center;
+}
+
+.card.cuerpo {
+  box-shadow: inset 2px 0 0 var(--cuerpo);
+}
+
+.card.mente {
+  box-shadow: inset 2px 0 0 var(--mente);
+}
+
+.card.tactica {
+  box-shadow: inset 2px 0 0 var(--tactica);
+}
+
+.card-head {
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+}
+
+.card-icon {
+  width: 66px;
+  height: 66px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.9rem;
+  border: 1px solid;
+}
+
+.card-icon.cuerpo {
+  color: var(--cuerpo);
+  border-color: rgba(153, 241, 43, 0.5);
+  box-shadow: 0 0 12px rgba(153, 241, 43, 0.32);
+}
+
+.card-icon.mente {
+  color: var(--mente);
+  border-color: rgba(142, 93, 255, 0.5);
+  box-shadow: 0 0 12px rgba(142, 93, 255, 0.32);
+}
+
+.card-icon.tactica {
+  color: var(--tactica);
+  border-color: rgba(255, 138, 31, 0.5);
+  box-shadow: 0 0 12px rgba(255, 138, 31, 0.32);
+}
+
+.card-main {
+  min-width: 0;
+}
+
+.card-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  gap: 12px;
+}
+
+.badge {
+  display: inline-block;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 4px 8px;
+  border-radius: 999px;
+  color: #0a1730;
+  font-weight: 700;
+}
+
+.badge.cuerpo { background: var(--cuerpo); }
+.badge.mente { background: var(--mente); }
+.badge.tactica { background: var(--tactica); }
+
+.lesson-id {
+  color: #9cb0db;
+  font-size: 1.05rem;
+  margin-left: auto;
+}
+
+.lesson-title {
+  margin: 0 0 8px;
+  font-size: clamp(1.5rem, 2.2vw, 2.05rem);
+  line-height: 1.1;
+}
+
+.lesson-text {
+  margin: 0 0 8px;
+  line-height: 1.35;
+  color: #bec9e8;
+  font-size: 1.05rem;
+}
+
+.lesson-exercise {
+  margin: 0;
+  color: #d7e2ff;
+  font-size: 1.05rem;
+}
+
+.card.cuerpo .lesson-exercise {
+  color: rgba(170, 248, 86, 0.95);
+}
+
+.card.mente .lesson-exercise {
+  color: rgba(186, 148, 255, 0.95);
+}
+
+.card.tactica .lesson-exercise {
+  color: rgba(255, 173, 88, 0.95);
+}
+
+.card-arrow {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid rgba(98, 156, 255, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #5ca8ff;
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.bottom-copy {
+  margin: 24px 0 0;
+  text-align: center;
+  color: #aac0ea;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+}
+
+@media (max-width: 900px) {
+  .subtitle {
+    font-size: 1rem;
+  }
+  .date-number,
+  .date-year {
+    font-size: 2rem;
+  }
+  .date-month {
+    font-size: 1.75rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .top {
+    grid-template-columns: 1fr;
+  }
+  .top-tags {
+    order: 2;
+  }
+  .card {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .card-head {
+    justify-content: center;
+  }
+  .card-arrow {
+    display: none;
+  }
+  .card-label-row {
+    flex-wrap: wrap;
+  }
+}
