@@ -80,6 +80,7 @@ function renderCard(key, item) {
   node.classList.add(key);
   const badge = node.querySelector(".badge");
   const cardIcon = node.querySelector(".card-icon");
+  const levelEl = node.querySelector(".lesson-level");
   const idEl = node.querySelector(".lesson-id");
   const titleEl = node.querySelector(".lesson-title");
   const textEl = node.querySelector(".lesson-text");
@@ -89,6 +90,13 @@ function renderCard(key, item) {
   badge.classList.add(key);
   cardIcon.classList.add(key);
   cardIcon.textContent = key === "cuerpo" ? "🏃" : key === "mente" ? "🧠" : "✖";
+  if (item.level) {
+    levelEl.textContent = item.level;
+    levelEl.classList.add("visible");
+  } else {
+    levelEl.textContent = "";
+    levelEl.classList.remove("visible");
+  }
   idEl.textContent = item.id;
   titleEl.textContent = item.title;
   textEl.textContent = item.lesson;

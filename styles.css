@@ -289,6 +289,22 @@ body {
 .badge.mente { background: var(--mente); }
 .badge.tactica { background: var(--tactica); }
 
+.lesson-level {
+  display: none;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #c8d6f8;
+  border: 1px solid rgba(156, 176, 219, 0.35);
+  border-radius: 999px;
+  padding: 3px 8px;
+  margin-left: 8px;
+}
+
+.lesson-level.visible {
+  display: inline-block;
+}
+
 .lesson-id {
   color: #9cb0db;
   font-size: 1.05rem;
