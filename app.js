@@ -12,6 +12,10 @@ const cycleLabel = document.getElementById("cycleLabel");
 const cardTemplate = document.getElementById("cardTemplate");
 const langEsBtn = document.getElementById("langEs");
 const langEnBtn = document.getElementById("langEn");
+const whatsappShare = document.getElementById("whatsappShare");
+const shareLabel = document.getElementById("shareLabel");
+
+const siteUrl = "https://dailypadel.net";
 
 const langStorageKey = "padelDailyLang";
 let currentLang = "es";
@@ -24,6 +28,9 @@ const uiCopy = {
     subtitle: "Tu microlección diaria de Cuerpo, Mente y Táctica",
     category: { cuerpo: "Cuerpo", mente: "Mente", tactica: "Táctica" },
     exerciseLabel: "Ejercicio",
+    shareLabel: "Compartir",
+    shareAria: "Compartir en WhatsApp",
+    shareIntro: "Daily Padel - microlección de hoy",
     cycle: (day, total) => `Día ${day} de ${total}`,
     bottom: "Cada día mejor, en la pista y en la vida."
   },
@@ -34,6 +41,9 @@ const uiCopy = {
     subtitle: "Your daily micro-lesson for Body, Mind and Tactics",
     category: { cuerpo: "Body", mente: "Mind", tactica: "Tactics" },
     exerciseLabel: "Exercise",
+    shareLabel: "Share",
+    shareAria: "Share on WhatsApp",
+    shareIntro: "Daily Padel - today's micro-lesson",
     cycle: (day, total) => `Day ${day} of ${total}`,
     bottom: "Better every day, on court and in life."
   }
@@ -72,6 +82,32 @@ function getDayIndex(totalDays, date) {
   const localMidnight = new Date(date.getFullYear(), date.getMonth(), date.getDate());
   const daysSinceEpoch = Math.floor(localMidnight.getTime() / dayMs);
   return ((daysSinceEpoch % totalDays) + totalDays) % totalDays;
+}
+
+function formatShareTip(copy, categoryLabel, item) {
+  return [
+    `* ${categoryLabel}: ${item.title}`,
+    item.lesson,
+    `${copy.exerciseLabel}: ${item.exercise}`
+  ].join("\n");
+}
+
+function buildShareText(copy, payload) {
+  return [
+    copy.shareIntro,
+    "",
+    formatShareTip(copy, copy.category.cuerpo, payload.cuerpo),
+    "",
+    formatShareTip(copy, copy.category.mente, payload.mente),
+    "",
+    formatShareTip(copy, copy.category.tactica, payload.tactica),
+    "",
+    siteUrl
+  ].join("\n");
+}
+
+function buildWhatsAppUrl(text) {
+  return `https://wa.me/?text=${encodeURIComponent(text)}`;
 }
 
 function renderCard(key, item) {
@@ -131,6 +167,9 @@ function render() {
   cardsRoot.appendChild(renderCard("cuerpo", payload.cuerpo));
   cardsRoot.appendChild(renderCard("mente", payload.mente));
   cardsRoot.appendChild(renderCard("tactica", payload.tactica));
+  shareLabel.textContent = copy.shareLabel;
+  whatsappShare.setAttribute("aria-label", copy.shareAria);
+  whatsappShare.href = buildWhatsAppUrl(buildShareText(copy, payload));
   langEsBtn.classList.toggle("active", currentLang === "es");
   langEnBtn.classList.toggle("active", currentLang === "en");
 }
