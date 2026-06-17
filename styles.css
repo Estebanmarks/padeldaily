@@ -214,7 +214,7 @@ body {
   border-radius: 14px;
   padding: 12px;
   display: grid;
-  grid-template-columns: 48px 1fr auto;
+  grid-template-columns: 48px 1fr;
   gap: 10px;
   align-items: start;
 }
@@ -347,21 +347,6 @@ body {
   color: rgba(255, 173, 88, 0.95);
 }
 
-.card-arrow {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  border: 1px solid rgba(98, 156, 255, 0.45);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #5ca8ff;
-  font-size: 1.3rem;
-  line-height: 1;
-  align-self: center;
-  flex-shrink: 0;
-}
-
 .site-footer {
   margin: 18px auto 0;
   width: 100%;
@@ -417,10 +402,6 @@ body {
     grid-template-columns: 40px 1fr;
     padding: 10px 12px;
     gap: 10px;
-  }
-
-  .card-arrow {
-    display: none;
   }
 
   .card-icon {
