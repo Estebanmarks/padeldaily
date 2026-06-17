@@ -2,6 +2,7 @@ const cardsRoot = document.getElementById("cards");
 const topTags = document.getElementById("topTags");
 const subtitle = document.getElementById("subtitle");
 const bottomCopy = document.getElementById("bottomCopy");
+const siteCredit = document.getElementById("siteCredit");
 const connectorOne = document.getElementById("connectorOne");
 const connectorTwo = document.getElementById("connectorTwo");
 const dayWeek = document.getElementById("dayWeek");
@@ -25,7 +26,8 @@ const uiCopy = {
     category: { cuerpo: "Cuerpo", mente: "Mente", tactica: "Táctica" },
     exerciseLabel: "Ejercicio",
     cycle: (day, total) => `Día ${day} de ${total}`,
-    bottom: "Cada día mejor, en la pista y en la vida."
+    bottom: "Cada día mejor, en la pista y en la vida.",
+    credit: "Daily Padel - Creado por Esteban Marks © 2026"
   },
   en: {
     locale: "en-GB",
@@ -35,7 +37,8 @@ const uiCopy = {
     category: { cuerpo: "Body", mente: "Mind", tactica: "Tactics" },
     exerciseLabel: "Exercise",
     cycle: (day, total) => `Day ${day} of ${total}`,
-    bottom: "Better every day, on court and in life."
+    bottom: "Better every day, on court and in life.",
+    credit: "Daily Padel - Created by Esteban Marks © 2026"
   }
 };
 
@@ -117,6 +120,7 @@ function render() {
   topTags.textContent = copy.topTags;
   subtitle.textContent = copy.subtitle;
   bottomCopy.textContent = copy.bottom;
+  siteCredit.textContent = copy.credit;
   connectorOne.textContent = copy.connector;
   connectorTwo.textContent = copy.connector;
   document.documentElement.lang = currentLang;
